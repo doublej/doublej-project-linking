@@ -14,13 +14,13 @@
 		align-items: center;
 		gap: 10px;
 		padding: 8px 12px;
-		margin-left: 16px;
 		color: white;
 		text-decoration: none;
 		border-radius: 4px;
 		transition: background 150ms ease;
 		font-size: 13px;
-		line-height: 1;
+		line-height: 1.3;
+		overflow: hidden;
 	}
 
 	a:hover {

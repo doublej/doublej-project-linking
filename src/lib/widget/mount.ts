@@ -22,7 +22,13 @@ function init() {
 
 	mount(Widget, {
 		target: shadow,
-		props: { links: config.links, color: config.color, cta: config.cta }
+		props: {
+			links: config.links,
+			color: config.color,
+			cta: config.cta,
+			starUrl: config.starUrl,
+			showStar: config.showStar
+		}
 	});
 }
 
