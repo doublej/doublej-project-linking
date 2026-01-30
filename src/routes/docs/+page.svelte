@@ -285,7 +285,7 @@
 							<li><code>pathname</code> (required) - The URL path (e.g., "/blog/post-1")</li>
 						</ul>
 						<h4>Response</h4>
-						<pre class="code-block"><code>{
+						<pre class="code-block"><code>{`{
   "cta": "Projects",
   "color": "#e63946",
   "showStar": true,
@@ -296,7 +296,7 @@
       "icon": "github"
     }
   ]
-}</code></pre>
+}`}</code></pre>
 						<p>Returns <code>null</code> if no matching profile is found.</p>
 					</div>
 
@@ -316,7 +316,7 @@
 						</div>
 						<p>Create a new profile.</p>
 						<h4>Request Body</h4>
-						<pre class="code-block"><code>{
+						<pre class="code-block"><code>{`{
   "name": "My Profile",
   "config": {
     "cta": "Projects",
@@ -324,7 +324,7 @@
     "showStar": true,
     "links": [...]
   }
-}</code></pre>
+}`}</code></pre>
 					</div>
 
 					<div class="api-endpoint">
@@ -363,12 +363,12 @@
 						</div>
 						<p>Create a new matching rule. Priority is automatically calculated.</p>
 						<h4>Request Body</h4>
-						<pre class="code-block"><code>{
+						<pre class="code-block"><code>{`{
   "profileId": "uuid",
   "domain": "example.com",
   "pathPattern": "/blog/**",
   "enabled": true
-}</code></pre>
+}`}</code></pre>
 					</div>
 
 					<div class="api-endpoint">
@@ -395,16 +395,16 @@
 						</div>
 						<p>Shorten a URL using Short.io integration.</p>
 						<h4>Request Body</h4>
-						<pre class="code-block"><code>{
+						<pre class="code-block"><code>{`{
   "originalURL": "https://example.com/very/long/url",
   "slug": "my-slug" // optional
-}</code></pre>
+}`}</code></pre>
 						<h4>Response</h4>
-						<pre class="code-block"><code>{
+						<pre class="code-block"><code>{`{
   "shortURL": "https://l.jurrejan.com/my-slug",
   "slug": "my-slug",
   "originalURL": "https://example.com/very/long/url"
-}</code></pre>
+}`}</code></pre>
 					</div>
 				</section>
 			{/if}
