@@ -1,14 +1,17 @@
 # doublej-project-linking
 
-Embeddable corner widget for linking to multiple projects with Short.io URL shortening integration.
+Embeddable corner widget with path-based profile matching and Short.io URL shortening integration.
 
 ## Features
 
-- Configurable corner widget with custom CTA text and accent color
-- Support for multiple link types (GitHub, Substack, generic links)
+- **Path-based profile system** - Widget auto-detects URL and loads matching profile
+- **Profile management UI** - Dashboard for managing multiple widget profiles
+- **Domain + path matching rules** - Define where each profile appears using patterns
+- **Short.io integration** - One-click URL shortening in the config interface
+- Configurable CTA text, accent color, and links
+- Multiple link types (GitHub, Substack, generic links)
 - Auto-detect icons from URLs
 - Optional GitHub star button with live star count
-- **Short.io URL shortening integration** - one-click URL shortening directly in the config interface
 
 ## Setup
 
@@ -17,7 +20,7 @@ Embeddable corner widget for linking to multiple projects with Short.io URL shor
    bun install
    ```
 
-2. Configure Short.io API (optional, for URL shortening feature):
+2. Configure Short.io API (optional, for URL shortening):
    ```bash
    cp .env.example .env
    ```
@@ -32,51 +35,62 @@ Embeddable corner widget for linking to multiple projects with Short.io URL shor
    bun run dev
    ```
 
-4. Build the widget for production:
+4. Open http://localhost:5173 to access the profile management UI
+
+5. Build for production:
    ```bash
+   bun run build
    bun run build:widget
    ```
 
-## Using the URL Shortener
+## How It Works
 
-1. Navigate to http://localhost:5174
-2. Add or edit a link in the "Links" section
-3. Enter the full URL (e.g., `https://substack.com/my-article`)
-4. (Optional) Set a label to auto-generate a slug
-5. Click the ⚡ button next to the URL field
-6. The URL will be automatically shortened using Short.io
+### Profile System
 
-**Note:** The slug is auto-generated from the label field. For example:
-- Label: "Camera Diagnosing" → Slug: `camera-diagnosing`
-- Label: "Ambient Light" → Slug: `ambient-light`
+The widget uses a path-matching system to determine which profile to display:
 
-## Short.io API Integration
+1. **Profiles** - Widget configurations stored in `profiles/profiles/*.json`
+2. **Matching Rules** - Domain + path patterns that determine when a profile appears
+3. **API Lookup** - Widget fetches config from `/api/widget-config?domain=X&pathname=Y`
+4. **Specificity** - Most specific rule wins (exact paths beat wildcards)
 
-The integration uses a SvelteKit API route (`/api/shorten`) that:
-- Accepts `originalURL` and optional `slug` parameters
-- Calls the Short.io API with your credentials
-- Returns the shortened URL
-- Handles errors gracefully
-
-## Project Structure
+### Path Pattern Examples
 
 ```
-src/
-├── lib/widget/          # Widget components
-│   ├── Widget.svelte    # Main widget component
-│   ├── LinkItem.svelte  # Individual link item
-│   ├── config.ts        # Configuration types
-│   ├── icons.ts         # SVG icons
-│   └── mount.ts         # Widget initialization
-├── routes/
-│   ├── +page.svelte     # Config/demo page
-│   └── api/shorten/
-│       └── +server.ts   # Short.io API endpoint
+/blog/featured     → Exact path (priority: 1200)
+/blog/*            → Single-level wildcard (priority: 110)
+/blog/**           → Multi-level wildcard (priority: 101)
+/**                → Catch-all (priority: 1)
 ```
+
+## Management UI
+
+Access the dashboard at http://localhost:5173 to:
+
+- **Create profiles** - Define widget appearance and links
+- **Configure rules** - Set domain and path patterns for each profile
+- **Test URLs** - Verify which profile matches a given URL
+- **Get embed code** - Single-line script tag with no configuration needed
 
 ## Embed the Widget
 
-Copy the embed snippet from the config page and add it to your website:
+### Modern (Path-Based)
+
+Single line, no configuration - widget auto-detects URL:
+
+```html
+<script src="https://your-host.com/widget.js"></script>
+```
+
+The widget will:
+1. Detect the current page domain and path
+2. Call `/api/widget-config?domain=example.com&pathname=/blog/post`
+3. Load the matching profile configuration
+4. Hide itself if no profile matches
+
+### Legacy (Attribute-Based)
+
+Still supported for backward compatibility:
 
 ```html
 <script src="https://your-host.com/widget.js"
@@ -85,6 +99,48 @@ Copy the embed snippet from the config page and add it to your website:
   data-color="#e63946">
 </script>
 ```
+
+## Project Structure
+
+```
+src/
+├── lib/
+│   ├── server/profiles/      # Backend profile system
+│   │   ├── types.ts           # TypeScript types
+│   │   ├── storage.ts         # JSON file storage
+│   │   └── matcher.ts         # Path matching + specificity
+│   └── widget/                # Widget components
+│       ├── Widget.svelte      # Main widget UI
+│       ├── LinkItem.svelte    # Link item component
+│       ├── config.ts          # Config parsing
+│       ├── icons.ts           # SVG icons
+│       └── mount.ts           # Widget initialization
+├── routes/
+│   ├── +page.svelte           # Profile management UI
+│   └── api/
+│       ├── widget-config/     # Widget config endpoint
+│       ├── profiles/          # Profile CRUD
+│       ├── rules/             # Rule CRUD
+│       └── shorten/           # Short.io integration
+└── hooks.server.ts            # CORS for widget embedding
+
+profiles/
+├── profiles/                  # Profile JSON files
+└── rules/                     # Rule JSON files
+```
+
+## API Endpoints
+
+- `GET /api/widget-config?domain=X&pathname=Y` - Get matching profile config
+- `GET /api/profiles` - List all profiles
+- `POST /api/profiles` - Create profile
+- `PUT /api/profiles/[id]` - Update profile
+- `DELETE /api/profiles/[id]` - Delete profile
+- `GET /api/rules?profileId=X` - List rules for profile
+- `POST /api/rules` - Create rule
+- `PUT /api/rules/[id]` - Update rule
+- `DELETE /api/rules/[id]` - Delete rule
+- `POST /api/shorten` - Shorten URL via Short.io
 
 ## License
 
