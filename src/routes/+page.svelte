@@ -325,12 +325,21 @@
 				<h1>Widget Profiles</h1>
 				<p class="subtitle">Manage embeddable widgets with path-based matching</p>
 			</div>
-			<button class="btn-primary" onclick={() => openEditor(null, true)}>
-				<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-					<path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-				</svg>
-				New Profile
-			</button>
+			<div class="header-actions">
+				<a href="/docs" class="btn-ghost">
+					<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+						<path d="M4 2h8a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+						<path d="M6 6h4M6 8.5h4M6 11h2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+					</svg>
+					Documentation
+				</a>
+				<button class="btn-primary" onclick={() => openEditor(null, true)}>
+					<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+						<path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+					</svg>
+					New Profile
+				</button>
+			</div>
 		</div>
 	</header>
 
@@ -603,6 +612,12 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 2rem;
+	}
+
+	.header-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
 	}
 
 	h1 {
@@ -1091,6 +1106,7 @@
 		font-weight: 500;
 		cursor: pointer;
 		transition: all 0.2s;
+		text-decoration: none;
 	}
 
 	.btn-ghost:hover {
