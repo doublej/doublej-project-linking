@@ -1,0 +1,18 @@
+{
+  "id": "consult-user-mcp",
+  "name": "Consult User MCP",
+  "config": {
+    "cta": "Projects",
+    "color": "#e63946",
+    "showStar": true,
+    "links": [
+      {
+        "label": "consult-user-mcp",
+        "url": "https://github.com/doublej/consult-user-mcp",
+        "icon": "github"
+      }
+    ]
+  },
+  "createdAt": "2026-01-30T16:00:00.000Z",
+  "updatedAt": "2026-01-30T16:00:00.000Z"
+}

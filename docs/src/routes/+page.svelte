@@ -19,8 +19,8 @@
 			description: 'Single script tag with no attributes needed. Widget fetches its own config from the API based on the current page URL.'
 		},
 		{
-			title: 'Short.io Integration',
-			description: 'Built-in URL shortening via Short.io API. One-click shortening directly from the management interface.'
+			title: 'Static Deployment',
+			description: 'Deploy to GitHub Pages or any static host. The widget falls back to a static manifest when no API is available.'
 		},
 		{
 			title: 'Shadow DOM Isolation',
@@ -51,6 +51,23 @@
 			title: 'Embed the widget',
 			description: 'Add a single script tag to your site. The widget handles the rest.',
 			code: '<script src="https://your-host.com/widget.js"><\/script>'
+		}
+	];
+
+	const deploySteps = [
+		{
+			title: 'Build the static assets',
+			description: 'Generate the manifest and widget bundle.',
+			code: 'bun run build:static'
+		},
+		{
+			title: 'Deploy the dist/ folder',
+			description: 'Upload widget.js and widget-manifest.json to any static host (GitHub Pages, Netlify, Vercel, S3, etc.).'
+		},
+		{
+			title: 'Embed on your site',
+			description: 'The widget tries the API first and falls back to the static manifest automatically.',
+			code: '<script src="https://your-pages-site.github.io/widget.js"><\/script>'
 		}
 	];
 
@@ -115,6 +132,37 @@
 						</div>
 					</div>
 				{/each}
+			</div>
+		</div>
+	</section>
+
+	<section class="getting-started">
+		<div class="container">
+			<h2>Static Deployment</h2>
+			<p class="section-description">Deploy the widget to any static host — no server required.</p>
+			<div class="steps">
+				{#each deploySteps as step, i}
+					<div class="step" style="animation-delay: {(i + 8) * 200}ms">
+						<div class="step-number">{i + 1}</div>
+						<div class="step-content">
+							<h3>{step.title}</h3>
+							<p>{step.description}</p>
+							{#if step.code}
+								<pre><code>{step.code}</code></pre>
+							{/if}
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</section>
+
+	<section class="install">
+		<div class="container">
+			<h2>Quick Install</h2>
+			<p class="section-description">One-liner to clone, install, and set up the project.</p>
+			<div class="install-box">
+				<code>bash &lt;(curl -fsSL https://raw.githubusercontent.com/jurrejan/doublej-project-linking/main/install.sh)</code>
 			</div>
 		</div>
 	</section>

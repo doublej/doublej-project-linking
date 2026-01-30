@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - 'docs/**'
+      - 'profiles/**'
+      - 'src/lib/widget/**'
+      - 'src/lib/shared/**'
 
 permissions:
   contents: read
@@ -22,13 +25,27 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install dependencies
+      - name: Install root dependencies
+        run: bun install
+
+      - name: Build manifest
+        run: bun run build:manifest
+
+      - name: Build widget
+        run: bun run build:widget
+
+      - name: Install docs dependencies
         run: cd docs && bun install
 
-      - name: Build
+      - name: Build docs
         run: cd docs && bun run build
         env:
           NODE_ENV: production
+
+      - name: Copy widget assets into docs build
+        run: |
+          cp dist/widget.js docs/build/widget.js
+          cp dist/widget-manifest.json docs/build/widget-manifest.json
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

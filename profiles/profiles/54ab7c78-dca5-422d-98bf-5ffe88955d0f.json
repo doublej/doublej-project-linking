@@ -1,0 +1,12 @@
+{
+  "id": "54ab7c78-dca5-422d-98bf-5ffe88955d0f",
+  "name": "sup",
+  "config": {
+    "cta": "Projects",
+    "color": "#e63946",
+    "showStar": true,
+    "links": []
+  },
+  "createdAt": "2026-01-30T07:26:34.068Z",
+  "updatedAt": "2026-01-30T07:26:36.642Z"
+}

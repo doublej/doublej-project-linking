@@ -1,6 +1,7 @@
 import { mount } from 'svelte';
 import Widget from './Widget.svelte';
 import { parseConfig, iconMap, type WidgetConfig, type IconKey } from './config.js';
+import { findBestMatch, type ManifestRule } from '../shared/matcher.js';
 
 type ProfileConfig = {
 	cta: string;
@@ -15,54 +16,86 @@ const scriptEl =
 		'script[data-github], script[data-substack], script[data-projects], script[src*="widget.js"]'
 	);
 
+function getApiBase(): string {
+	if (scriptEl?.src) return new URL(scriptEl.src).origin;
+	return window.location.origin;
+}
+
+function profileToWidgetConfig(profileConfig: ProfileConfig): WidgetConfig {
+	const links = profileConfig.links.map((link) => ({
+		label: link.label,
+		url: link.url,
+		icon: iconMap[link.icon]
+	}));
+
+	const firstGithubLink = profileConfig.links.find((l) => l.icon === 'github');
+
+	return {
+		cta: profileConfig.cta,
+		links,
+		color: profileConfig.color,
+		starUrl: firstGithubLink?.url ?? null,
+		showStar: profileConfig.showStar
+	};
+}
+
 /**
- * Fetch widget config from API based on current page URL
+ * Try the dynamic API endpoint first.
+ */
+async function fetchFromApi(apiBase: string): Promise<WidgetConfig | null> {
+	const domain = window.location.hostname;
+	const pathname = window.location.pathname;
+	const url = `${apiBase}/api/widget-config?domain=${encodeURIComponent(domain)}&pathname=${encodeURIComponent(pathname)}`;
+	const response = await fetch(url);
+
+	if (!response.ok) return null;
+
+	const profileConfig: ProfileConfig | null = await response.json();
+	if (!profileConfig) return null;
+
+	return profileToWidgetConfig(profileConfig);
+}
+
+/**
+ * Fallback: fetch the static manifest and match client-side.
+ */
+async function fetchFromManifest(apiBase: string): Promise<WidgetConfig | null> {
+	const url = `${apiBase}/widget-manifest.json`;
+	const response = await fetch(url);
+
+	if (!response.ok) return null;
+
+	const manifest: { rules: ManifestRule[] } = await response.json();
+	const domain = window.location.hostname;
+	const pathname = window.location.pathname;
+	const match = findBestMatch(domain, pathname, manifest.rules);
+
+	if (!match) return null;
+
+	return profileToWidgetConfig(match.config as ProfileConfig);
+}
+
+/**
+ * Fetch widget config: API first, then static manifest fallback.
  */
 async function fetchConfig(): Promise<WidgetConfig | null> {
+	const apiBase = getApiBase();
+
 	try {
-		const domain = window.location.hostname;
-		const pathname = window.location.pathname;
+		const config = await fetchFromApi(apiBase);
+		if (config) return config;
+	} catch {
+		// API unavailable, try manifest
+	}
 
-		// Get API base URL from script src or default to current origin
-		let apiBase = window.location.origin;
-		if (scriptEl?.src) {
-			const scriptUrl = new URL(scriptEl.src);
-			apiBase = scriptUrl.origin;
-		}
-
-		const url = `${apiBase}/api/widget-config?domain=${encodeURIComponent(domain)}&pathname=${encodeURIComponent(pathname)}`;
-		const response = await fetch(url);
-
-		if (!response.ok) return null;
-
-		const profileConfig: ProfileConfig | null = await response.json();
-		if (!profileConfig) return null;
-
-		// Convert ProfileConfig to WidgetConfig
-		const links = profileConfig.links.map((link) => ({
-			label: link.label,
-			url: link.url,
-			icon: iconMap[link.icon]
-		}));
-
-		// Find first GitHub link for star URL
-		const firstGithubLink = profileConfig.links.find((l) => l.icon === 'github');
-		const starUrl = firstGithubLink?.url ?? null;
-
-		return {
-			cta: profileConfig.cta,
-			links,
-			color: profileConfig.color,
-			starUrl,
-			showStar: profileConfig.showStar
-		};
+	try {
+		return await fetchFromManifest(apiBase);
 	} catch {
 		return null;
 	}
 }
 
 async function init() {
-	// Try API-based config first
 	let config = await fetchConfig();
 
 	// Fallback to attribute-based config
@@ -70,7 +103,6 @@ async function init() {
 		config = parseConfig(scriptEl);
 	}
 
-	// No config found - don't mount widget
 	if (!config) return;
 
 	const host = document.createElement('div');

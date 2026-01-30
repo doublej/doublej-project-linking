@@ -1,0 +1,8 @@
+{
+  "id": "3c74474f-0128-448a-a562-b2477845af01",
+  "profileId": "28188d79-4ac4-4692-94f0-06d3c779fc98",
+  "domain": "example.com",
+  "pathPattern": "/blog/**",
+  "priority": 101,
+  "enabled": true
+}

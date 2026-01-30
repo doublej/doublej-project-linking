@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "build:widget": "vite build --config vite.config.widget.ts"
+    "build:widget": "vite build --config vite.config.widget.ts",
+    "build:manifest": "bun run scripts/build-manifest.ts",
+    "build:static": "bun run build:manifest && bun run build:widget"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^3.0.0",

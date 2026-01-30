@@ -1,0 +1,8 @@
+{
+  "id": "beads-kanban-rule",
+  "profileId": "beads-kanban",
+  "domain": "doublej.github.io",
+  "pathPattern": "/beads-kanban/**",
+  "priority": 101,
+  "enabled": true
+}

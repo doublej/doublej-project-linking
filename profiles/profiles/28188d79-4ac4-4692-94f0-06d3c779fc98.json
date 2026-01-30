@@ -1,0 +1,18 @@
+{
+  "id": "28188d79-4ac4-4692-94f0-06d3c779fc98",
+  "name": "Test Profile",
+  "config": {
+    "cta": "My Projects",
+    "color": "#ff6b6b",
+    "showStar": true,
+    "links": [
+      {
+        "label": "GitHub",
+        "url": "https://github.com/test/repo",
+        "icon": "github"
+      }
+    ]
+  },
+  "createdAt": "2026-01-30T06:57:10.675Z",
+  "updatedAt": "2026-01-30T06:57:10.676Z"
+}

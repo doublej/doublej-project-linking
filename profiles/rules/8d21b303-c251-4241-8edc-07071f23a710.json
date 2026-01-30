@@ -1,0 +1,8 @@
+{
+  "id": "8d21b303-c251-4241-8edc-07071f23a710",
+  "profileId": "28188d79-4ac4-4692-94f0-06d3c779fc98",
+  "domain": "example.com",
+  "pathPattern": "/blog/featured",
+  "priority": 1200,
+  "enabled": true
+}

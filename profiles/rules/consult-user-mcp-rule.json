@@ -1,0 +1,8 @@
+{
+  "id": "consult-user-mcp-rule",
+  "profileId": "consult-user-mcp",
+  "domain": "doublej.github.io",
+  "pathPattern": "/consult-user-mcp/**",
+  "priority": 101,
+  "enabled": true
+}
