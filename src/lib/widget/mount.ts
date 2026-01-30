@@ -16,8 +16,13 @@ const scriptEl =
 		'script[data-github], script[data-substack], script[data-projects], script[src*="widget.js"]'
 	);
 
-function getApiBase(): string {
-	if (scriptEl?.src) return new URL(scriptEl.src).origin;
+/** Derive the base URL from the script src (directory containing widget.js). */
+function getScriptBase(): string {
+	if (scriptEl?.src) {
+		const url = new URL(scriptEl.src);
+		const dir = url.pathname.replace(/\/[^/]*$/, '');
+		return url.origin + dir;
+	}
 	return window.location.origin;
 }
 
@@ -42,10 +47,10 @@ function profileToWidgetConfig(profileConfig: ProfileConfig): WidgetConfig {
 /**
  * Try the dynamic API endpoint first.
  */
-async function fetchFromApi(apiBase: string): Promise<WidgetConfig | null> {
+async function fetchFromApi(scriptBase: string): Promise<WidgetConfig | null> {
 	const domain = window.location.hostname;
 	const pathname = window.location.pathname;
-	const url = `${apiBase}/api/widget-config?domain=${encodeURIComponent(domain)}&pathname=${encodeURIComponent(pathname)}`;
+	const url = `${scriptBase}/api/widget-config?domain=${encodeURIComponent(domain)}&pathname=${encodeURIComponent(pathname)}`;
 	const response = await fetch(url);
 
 	if (!response.ok) return null;
@@ -59,8 +64,8 @@ async function fetchFromApi(apiBase: string): Promise<WidgetConfig | null> {
 /**
  * Fallback: fetch the static manifest and match client-side.
  */
-async function fetchFromManifest(apiBase: string): Promise<WidgetConfig | null> {
-	const url = `${apiBase}/widget-manifest.json`;
+async function fetchFromManifest(scriptBase: string): Promise<WidgetConfig | null> {
+	const url = `${scriptBase}/widget-manifest.json`;
 	const response = await fetch(url);
 
 	if (!response.ok) return null;
@@ -79,17 +84,17 @@ async function fetchFromManifest(apiBase: string): Promise<WidgetConfig | null> 
  * Fetch widget config: API first, then static manifest fallback.
  */
 async function fetchConfig(): Promise<WidgetConfig | null> {
-	const apiBase = getApiBase();
+	const base = getScriptBase();
 
 	try {
-		const config = await fetchFromApi(apiBase);
+		const config = await fetchFromApi(base);
 		if (config) return config;
 	} catch {
 		// API unavailable, try manifest
 	}
 
 	try {
-		return await fetchFromManifest(apiBase);
+		return await fetchFromManifest(base);
 	} catch {
 		return null;
 	}
