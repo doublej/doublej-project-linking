@@ -8,6 +8,8 @@ on:
       - 'profiles/**'
       - 'src/lib/widget/**'
       - 'src/lib/shared/**'
+      - '.github/workflows/deploy-docs.yml'
+      - 'scripts/**'
 
 permissions:
   contents: read
