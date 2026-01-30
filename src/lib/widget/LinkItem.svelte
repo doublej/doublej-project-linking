@@ -12,24 +12,26 @@
 	a {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: 10px;
 		padding: 8px 12px;
+		margin-left: 16px;
 		color: white;
 		text-decoration: none;
 		border-radius: 4px;
 		transition: background 150ms ease;
-		font-size: 14px;
+		font-size: 13px;
 		line-height: 1;
 	}
 
 	a:hover {
-		background: rgba(255, 255, 255, 0.15);
+		background: rgba(255, 255, 255, 0.12);
 	}
 
 	.icon {
 		display: flex;
 		align-items: center;
 		flex-shrink: 0;
+		opacity: 0.85;
 	}
 
 	.label {

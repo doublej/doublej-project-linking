@@ -5,7 +5,7 @@ import { parseConfig } from './config.js';
 const scriptEl =
 	(document.currentScript as HTMLScriptElement | null) ??
 	document.querySelector<HTMLScriptElement>(
-		'script[data-github], script[data-substack], script[data-links]'
+		'script[data-github], script[data-substack], script[data-projects]'
 	);
 
 function init() {
@@ -22,7 +22,7 @@ function init() {
 
 	mount(Widget, {
 		target: shadow,
-		props: { links: config.links, color: config.color }
+		props: { links: config.links, color: config.color, cta: config.cta }
 	});
 }
 

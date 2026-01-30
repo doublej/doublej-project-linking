@@ -3,35 +3,46 @@
 	import type { WidgetLink } from '$lib/widget/config.js';
 	import { githubIcon, substackIcon, linkIcon } from '$lib/widget/icons.js';
 
+	let ctaText = $state('Projects');
 	let githubEnabled = $state(true);
-	let githubValue = $state('user/repo');
+	let githubValue = $state('user/repo1, user/repo2');
 	let substackEnabled = $state(false);
 	let substackValue = $state('my-newsletter');
 	let accentColor = $state('#e63946');
-	let customLinksText = $state('');
+	let projectsText = $state('');
 
 	let links = $derived.by(() => {
 		const result: WidgetLink[] = [];
 
 		if (githubEnabled && githubValue) {
-			result.push({
-				label: githubValue,
-				url: `https://github.com/${githubValue}`,
-				icon: githubIcon
-			});
+			for (const repo of githubValue.split(',')) {
+				const trimmed = repo.trim();
+				if (trimmed) {
+					result.push({
+						label: trimmed,
+						url: `https://github.com/${trimmed}`,
+						icon: githubIcon
+					});
+				}
+			}
 		}
 
 		if (substackEnabled && substackValue) {
-			result.push({
-				label: substackValue,
-				url: `https://${substackValue}.substack.com`,
-				icon: substackIcon
-			});
+			for (const slug of substackValue.split(',')) {
+				const trimmed = slug.trim();
+				if (trimmed) {
+					result.push({
+						label: trimmed,
+						url: `https://${trimmed}.substack.com`,
+						icon: substackIcon
+					});
+				}
+			}
 		}
 
-		if (customLinksText.trim()) {
+		if (projectsText.trim()) {
 			try {
-				const parsed: { label: string; url: string }[] = JSON.parse(customLinksText);
+				const parsed: { label: string; url: string }[] = JSON.parse(projectsText);
 				for (const item of parsed) {
 					if (item.label && item.url) {
 						result.push({ label: item.label, url: item.url, icon: linkIcon });
@@ -47,13 +58,14 @@
 
 	let snippet = $derived.by(() => {
 		const attrs: string[] = [];
+		if (ctaText !== 'Projects') attrs.push(`data-cta="${ctaText}"`);
 		if (githubEnabled && githubValue) attrs.push(`data-github="${githubValue}"`);
 		if (substackEnabled && substackValue) attrs.push(`data-substack="${substackValue}"`);
 		if (accentColor !== '#e63946') attrs.push(`data-color="${accentColor}"`);
-		if (customLinksText.trim()) {
+		if (projectsText.trim()) {
 			try {
-				JSON.parse(customLinksText);
-				attrs.push(`data-links='${customLinksText.trim()}'`);
+				JSON.parse(projectsText);
+				attrs.push(`data-projects='${projectsText.trim()}'`);
 			} catch {
 				// skip invalid JSON
 			}
@@ -73,9 +85,14 @@
 
 <main>
 	<h1>doublej-project-linking</h1>
-	<p>Configure your embeddable corner widget below. Hover the bottom-right corner to preview.</p>
+	<p>Configure the embeddable corner widget. Hover the bottom-right corner to preview.</p>
 
 	<section class="controls">
+		<fieldset>
+			<legend>CTA Text</legend>
+			<input type="text" bind:value={ctaText} placeholder="Projects" />
+		</fieldset>
+
 		<fieldset>
 			<legend>GitHub</legend>
 			<label>
@@ -83,7 +100,7 @@
 				Enable
 			</label>
 			{#if githubEnabled}
-				<input type="text" bind:value={githubValue} placeholder="user/repo" />
+				<input type="text" bind:value={githubValue} placeholder="user/repo1, user/repo2" />
 			{/if}
 		</fieldset>
 
@@ -94,7 +111,7 @@
 				Enable
 			</label>
 			{#if substackEnabled}
-				<input type="text" bind:value={substackValue} placeholder="my-newsletter" />
+				<input type="text" bind:value={substackValue} placeholder="slug1, slug2" />
 			{/if}
 		</fieldset>
 
@@ -105,8 +122,8 @@
 		</fieldset>
 
 		<fieldset>
-			<legend>Custom Links (JSON)</legend>
-			<textarea bind:value={customLinksText} rows="3"
+			<legend>Custom Projects (JSON)</legend>
+			<textarea bind:value={projectsText} rows="3"
 				placeholder='[{{"label":"My Tool","url":"https://..."}}]'
 			></textarea>
 		</fieldset>
@@ -122,7 +139,7 @@
 </main>
 
 {#if links.length > 0}
-	<Widget {links} color={accentColor} />
+	<Widget {links} color={accentColor} cta={ctaText} />
 {/if}
 
 <style>
