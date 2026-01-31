@@ -1,0 +1,8 @@
+{
+  "id": "ccom-rule",
+  "profileId": "ccom",
+  "domain": "doublej.github.io",
+  "pathPattern": "/ccom/**",
+  "priority": 101,
+  "enabled": true
+}
