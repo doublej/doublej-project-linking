@@ -10,6 +10,11 @@
         "label": "consult-user-mcp",
         "url": "https://github.com/doublej/consult-user-mcp",
         "icon": "github"
+      },
+      {
+        "label": "See my other projects",
+        "url": "https://l.jurrejan.com/doublej-gh",
+        "icon": "link"
       }
     ]
   },

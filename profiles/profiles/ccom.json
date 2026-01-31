@@ -10,6 +10,11 @@
         "label": "ccom",
         "url": "https://github.com/doublej/ccom",
         "icon": "github"
+      },
+      {
+        "label": "See my other projects",
+        "url": "https://l.jurrejan.com/doublej-gh",
+        "icon": "link"
       }
     ]
   },

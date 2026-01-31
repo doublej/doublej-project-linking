@@ -10,6 +10,11 @@
         "label": "beads-kanban",
         "url": "https://github.com/doublej/beads-kanban",
         "icon": "github"
+      },
+      {
+        "label": "See my other projects",
+        "url": "https://l.jurrejan.com/doublej-gh",
+        "icon": "link"
       }
     ]
   },
