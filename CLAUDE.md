@@ -185,3 +185,19 @@ Edit `calculateSpecificity()` in `matcher.ts`. Remember: higher score = more spe
 6. Open test file in browser (widget should appear)
 
 Note: Widget fetches config from script src origin, so dev server must be running.
+
+## Widget Embed Locations
+
+Keep this list up to date when adding or removing the widget from a site. Each entry records where the `<script>` tag lives and which profile/rule it maps to.
+
+| Site | Script tag location | Profile | Rule |
+|---|---|---|---|
+| [beads-kanban docs](https://doublej.github.io/beads-kanban/) | `docs/src/app.html` in [beads-kanban](https://github.com/doublej/beads-kanban) | `profiles/profiles/beads-kanban.json` | `profiles/rules/beads-kanban-rule.json` |
+| [consult-user-mcp docs](https://doublej.github.io/consult-user-mcp/) | `docs/src/app.html` in [consult-user-mcp](https://github.com/doublej/consult-user-mcp) | `profiles/profiles/consult-user-mcp.json` | `profiles/rules/consult-user-mcp-rule.json` |
+| [ccom docs](https://doublej.github.io/ccom/) | `docs/src/app.html` in [ccom](https://github.com/doublej/ccom) | `profiles/profiles/ccom.json` | `profiles/rules/ccom-rule.json` |
+
+When embedding the widget on a new site:
+1. Create a profile JSON in `profiles/profiles/`
+2. Create a matching rule JSON in `profiles/rules/`
+3. Add `<script defer src="https://doublej.github.io/doublej-project-linking/widget.js"></script>` to the target site
+4. Update this table
