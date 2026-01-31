@@ -7,7 +7,7 @@
     "showStar": true,
     "links": [
       {
-        "label": "beads-kanban",
+        "label": "View project on GitHub",
         "url": "https://github.com/doublej/beads-kanban",
         "icon": "github"
       },
