@@ -1,0 +1,132 @@
+{
+  "rules": [
+    {
+      "domain": "example.com",
+      "pathPattern": "/blog/featured",
+      "priority": 1200,
+      "enabled": true,
+      "config": {
+        "cta": "My Projects",
+        "color": "#ff6b6b",
+        "showStar": true,
+        "links": [
+          {
+            "label": "GitHub",
+            "url": "https://github.com/test/repo",
+            "icon": "github"
+          }
+        ]
+      }
+    },
+    {
+      "domain": "example.com",
+      "pathPattern": "/blog/**",
+      "priority": 101,
+      "enabled": true,
+      "config": {
+        "cta": "My Projects",
+        "color": "#ff6b6b",
+        "showStar": true,
+        "links": [
+          {
+            "label": "GitHub",
+            "url": "https://github.com/test/repo",
+            "icon": "github"
+          }
+        ]
+      }
+    },
+    {
+      "domain": "doublej.github.io",
+      "pathPattern": "/ccom/**",
+      "priority": 101,
+      "enabled": true,
+      "config": {
+        "cta": "Projects",
+        "color": "#e63946",
+        "showStar": true,
+        "links": [
+          {
+            "label": "View project on GitHub",
+            "url": "https://github.com/doublej/ccom",
+            "icon": "github"
+          },
+          {
+            "label": "See my other projects",
+            "url": "https://l.jurrejan.com/doublej-gh",
+            "icon": "link"
+          }
+        ]
+      }
+    },
+    {
+      "domain": "doublej.github.io",
+      "pathPattern": "/consult-user-mcp/**",
+      "priority": 101,
+      "enabled": true,
+      "config": {
+        "cta": "Projects",
+        "color": "#e63946",
+        "showStar": true,
+        "links": [
+          {
+            "label": "View project on GitHub",
+            "url": "https://github.com/doublej/consult-user-mcp",
+            "icon": "github"
+          },
+          {
+            "label": "See my other projects",
+            "url": "https://l.jurrejan.com/doublej-gh",
+            "icon": "link"
+          }
+        ]
+      }
+    },
+    {
+      "domain": "doublej.github.io",
+      "pathPattern": "/flt/**",
+      "priority": 101,
+      "enabled": true,
+      "config": {
+        "cta": "Projects",
+        "color": "#e63946",
+        "showStar": true,
+        "links": [
+          {
+            "label": "View project on GitHub",
+            "url": "https://github.com/doublej/flt",
+            "icon": "github"
+          },
+          {
+            "label": "See my other projects",
+            "url": "https://l.jurrejan.com/doublej-gh",
+            "icon": "link"
+          }
+        ]
+      }
+    },
+    {
+      "domain": "doublej.github.io",
+      "pathPattern": "/beads-kanban/**",
+      "priority": 101,
+      "enabled": true,
+      "config": {
+        "cta": "Projects",
+        "color": "#e63946",
+        "showStar": true,
+        "links": [
+          {
+            "label": "View project on GitHub",
+            "url": "https://github.com/doublej/beads-kanban",
+            "icon": "github"
+          },
+          {
+            "label": "See my other projects",
+            "url": "https://l.jurrejan.com/doublej-gh",
+            "icon": "link"
+          }
+        ]
+      }
+    }
+  ]
+}

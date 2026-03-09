@@ -1,0 +1,8 @@
+{
+  "id": "flt-rule",
+  "profileId": "flt",
+  "domain": "doublej.github.io",
+  "pathPattern": "/flt/**",
+  "priority": 101,
+  "enabled": true
+}
