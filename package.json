@@ -1,8 +1,11 @@
 {
   "name": "doublej-project-linking",
   "version": "0.1.0",
-  "description": "A SvelteKit application",
+  "description": "Embeddable widget with path-based profile matching.",
   "type": "module",
+  "bin": {
+    "widget-link": "src/cli.ts"
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -10,7 +13,8 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "build:widget": "vite build --config vite.config.widget.ts",
     "build:manifest": "bun run scripts/build-manifest.ts",
-    "build:static": "bun run build:manifest && bun run build:widget"
+    "build:static": "bun run build:manifest && bun run build:widget",
+    "cli": "bun run src/cli.ts"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^3.0.0",
