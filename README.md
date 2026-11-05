@@ -63,6 +63,47 @@ The widget uses a path-matching system to determine which profile to display:
 /**                → Catch-all (priority: 1)
 ```
 
+## CLI
+
+A global CLI tool for managing profiles and rules from the terminal.
+
+### Install globally
+
+```bash
+bun link
+```
+
+### Commands
+
+```bash
+# List all profiles and their rules
+widget-link list
+
+# Add a new project (creates profile + rule)
+widget-link add my-project --repo https://github.com/doublej/my-project
+
+# Add with options
+widget-link add my-project --repo https://github.com/doublej/my-project \
+  --name "My Cool Project" --color "#3b82f6" --no-star --no-other
+
+# Remove a project and its rules
+widget-link remove my-project
+
+# Build, commit, and push to deploy
+widget-link deploy
+```
+
+### Options for `add`
+
+| Flag | Description | Default |
+|---|---|---|
+| `--repo <url>` | GitHub repo URL (required) | — |
+| `--domain <domain>` | Target domain | `doublej.github.io` |
+| `--name <name>` | Display name | Derived from slug |
+| `--color <hex>` | Accent color | `#e63946` |
+| `--no-star` | Disable star count | — |
+| `--no-other` | Skip "See my other projects" link | — |
+
 ## Management UI
 
 Access the dashboard at http://localhost:5173 to:
@@ -104,6 +145,7 @@ Still supported for backward compatibility:
 
 ```
 src/
+├── cli.ts                    # Global CLI tool (widget-link)
 ├── lib/
 │   ├── server/profiles/      # Backend profile system
 │   │   ├── types.ts           # TypeScript types
